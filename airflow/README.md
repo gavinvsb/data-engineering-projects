@@ -24,7 +24,7 @@ The pipeline extracts data from S3, stages it in Redshift, and loads it into a *
 
 ## 🛠 DAG Overview
 
-<img src="./airflow_dag.PNG?raw=true" width="800" />
+<img src="./airflow_dag.png?raw=true" width="800" />
 
 The DAG orchestrates the following steps:  
 1. Stage raw song and log data from S3 into Redshift staging tables.  

@@ -1,0 +1,52 @@
+# Sparkify ETL Pipeline with Airflow and Redshift
+
+## 📌 Project Overview
+
+**Sparkify**, a music streaming startup, wants to analyze the data they’ve been collecting on songs and user activity.  
+
+The analytics team is particularly interested in **understanding what songs users are listening to**, but currently, the raw data is stored in JSON files, making it difficult to query and analyze efficiently.  
+
+To address this, Sparkify built a **data pipeline** using:  
+- **Airflow** – to schedule, monitor, and orchestrate ETL jobs.  
+- **Amazon S3** – as the storage for raw JSON song and log data.  
+- **Amazon Redshift** – as the analytics data warehouse.  
+
+The pipeline extracts data from S3, stages it in Redshift, and loads it into a **star schema** for easy analytics.
+
+---
+
+## 📂 Repository Structure
+
+- **[airflow](airflow)** – Workspace folder containing DAGs and plugins used by the Airflow server.  
+- **[airflow/dags/s3_to_redshift_dag.py](airflow/dags/s3_to_redshift.py)** – Main DAG written in Python, defining the entire ETL workflow.  
+
+---
+
+## 🛠 DAG Overview
+
+<img src="./airflow_dag.PNG?raw=true" width="800" />
+
+The DAG orchestrates the following steps:  
+1. Stage raw song and log data from S3 into Redshift staging tables.  
+2. Load fact table (`songplays`) with user activity data.  
+3. Load dimension tables (`users`, `songs`, `artists`, `time`).  
+4. Run data quality checks to ensure the integrity of the loaded data.  
+
+---
+
+## 🗄 Database Schema & ETL Pipeline
+
+The Redshift schema follows a **star schema** design:  
+
+- **Fact Table**: `songplays` – stores all user song activities filtered by `NextSong` events.  
+- **Dimension Tables**: `users`, `songs`, `artists`, `time`.  
+
+This structure allows Sparkify to analyze user behavior across multiple dimensions, such as time, user demographics, artists, and songs.
+
+---
+
+## 📊 Dataset Used
+
+Data is queried from public S3 buckets hosted on AWS:
+
+- **Song data**:  
